@@ -1,5 +1,41 @@
 import { ArrowDown } from "lucide-react";
-import { agents, architecture, collaborationChain, outcomes } from "./data";
+import { agents, architecture, collaborationChain, executiveWalkthrough, outcomes } from "./data";
+
+export function ExecutiveWalkthrough() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      {executiveWalkthrough.map((s, i) => (
+        <div key={s.minute} className="surface-panel relative rounded-2xl p-6">
+          <div className="flex items-baseline gap-3">
+            <span className="font-mono text-xs text-primary">{s.minute}</span>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Stop {i + 1} of {executiveWalkthrough.length}
+            </span>
+          </div>
+          <h3 className="mt-2 text-lg font-semibold">{s.title}</h3>
+          <p className="mt-3 border-l-2 border-primary/50 pl-3 text-sm italic text-foreground/85">“{s.say}”</p>
+          <p className="mt-4 text-sm text-muted-foreground">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-accent">On screen — </span>
+            {s.show}
+          </p>
+          <div className="mt-4 border-t border-border pt-3">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Point at</p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {s.proof.map((p) => (
+                <span
+                  key={p}
+                  className="rounded border border-border bg-secondary/50 px-1.5 py-0.5 text-[11px] text-muted-foreground"
+                >
+                  {p}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function SectionHeading({
   eyebrow,
