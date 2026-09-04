@@ -7,6 +7,7 @@ import {
   AgentGrid,
   ArchitectureStack,
   CollaborationChain,
+  ExecutiveWalkthrough,
   OutcomeGrid,
   SectionHeading,
 } from "@/components/agentfield/sections";
