@@ -168,6 +168,18 @@ function Index() {
         </div>
       </section>
 
+      {/* Executive walkthrough */}
+      <section id="walkthrough" className="mx-auto max-w-7xl px-5 py-20">
+        <SectionHeading
+          eyebrow="Executive walkthrough"
+          title="How to run this demo in 18 minutes"
+          lead="Six stops, what to say at each one, and the exact proof point on screen — built for a CxO audience."
+        />
+        <div className="mt-10">
+          <ExecutiveWalkthrough />
+        </div>
+      </section>
+
       {/* Scenarios */}
       <section id="scenarios" className="mx-auto max-w-7xl px-5 py-20">
         <SectionHeading
