@@ -165,7 +165,7 @@ export const agents: Agent[] = [
     n: 8,
     name: "Closure Agent",
     responsibilities: ["Generate service reports", "Update CRM", "Update billing", "Close work orders", "Trigger surveys"],
-    meta: { label: "Uses", items: ["Dynamics 365", "ServiceNow", "Billing"] },
+    meta: { label: "Uses", items: ["Dynamics 365 Field Service", "ServiceNow CSM", "Amdocs billing", "Salesforce"] },
   },
 ];
 
