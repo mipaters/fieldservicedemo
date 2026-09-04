@@ -7,6 +7,7 @@ import {
   AgentGrid,
   ArchitectureStack,
   CollaborationChain,
+  ExecutiveWalkthrough,
   OutcomeGrid,
   SectionHeading,
 } from "@/components/agentfield/sections";
@@ -54,6 +55,7 @@ function Index() {
           <nav className="hidden gap-6 text-sm text-muted-foreground md:flex">
             <a href="#outcomes" className="hover:text-foreground">Outcomes</a>
             <a href="#scenarios" className="hover:text-foreground">Scenarios</a>
+            <a href="#walkthrough" className="hover:text-foreground">Walkthrough</a>
             <a href="#agents" className="hover:text-foreground">Agents</a>
             <a href="#architecture" className="hover:text-foreground">Architecture</a>
           </nav>
@@ -163,6 +165,18 @@ function Index() {
           <div className="mt-10">
             <OutcomeGrid />
           </div>
+        </div>
+      </section>
+
+      {/* Executive walkthrough */}
+      <section id="walkthrough" className="mx-auto max-w-7xl px-5 py-20">
+        <SectionHeading
+          eyebrow="Executive walkthrough"
+          title="How to run this demo in 18 minutes"
+          lead="Six stops, what to say at each one, and the exact proof point on screen — built for a CxO audience."
+        />
+        <div className="mt-10">
+          <ExecutiveWalkthrough />
         </div>
       </section>
 

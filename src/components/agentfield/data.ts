@@ -132,7 +132,10 @@ export const agents: Agent[] = [
     n: 3,
     name: "Network Intelligence Agent",
     responsibilities: ["Analyze network alarms", "Review telemetry", "Detect root cause", "Predict likely failures"],
-    meta: { label: "Data sources", items: ["OSS/BSS", "Network monitoring", "Event streams", "Historical incidents"] },
+    meta: {
+      label: "Data sources",
+      items: ["Netcracker OSS", "Amdocs BSS", "Nokia NSP", "Ciena Blue Planet", "Splunk event streams"],
+    },
   },
   {
     n: 4,
@@ -144,7 +147,7 @@ export const agents: Agent[] = [
     n: 5,
     name: "Inventory Agent",
     responsibilities: ["Check truck stock", "Locate replacement parts", "Reserve inventory", "Initiate replenishment"],
-    meta: { label: "Uses", items: ["Inventory systems", "SAP"] },
+    meta: { label: "Uses", items: ["SAP S/4HANA", "Oracle SCM", "Dynamics 365 Field Service inventory"] },
   },
   {
     n: 6,
@@ -156,13 +159,13 @@ export const agents: Agent[] = [
     n: 7,
     name: "Customer Engagement Agent",
     responsibilities: ["Proactive outreach", "ETA notifications", "Appointment updates", "Service communication"],
-    meta: { label: "Uses", items: ["CRM", "Customer systems"] },
+    meta: { label: "Uses", items: ["Salesforce Service Cloud", "Dynamics 365 Customer Service", "Amdocs CES"] },
   },
   {
     n: 8,
     name: "Closure Agent",
     responsibilities: ["Generate service reports", "Update CRM", "Update billing", "Close work orders", "Trigger surveys"],
-    meta: { label: "Uses", items: ["Dynamics 365", "ServiceNow", "Billing"] },
+    meta: { label: "Uses", items: ["Dynamics 365 Field Service", "ServiceNow CSM", "Amdocs billing", "Salesforce"] },
   },
 ];
 
@@ -192,15 +195,85 @@ export const architecture = [
     items: ["Microsoft Fabric", "OneLake", "Data Activator"],
   },
   {
-    layer: "Data sources",
-    items: ["OSS", "BSS", "CRM", "GIS", "Inventory", "Work orders", "Customer systems", "Network telemetry"],
+    layer: "OSS / network sources",
+    items: [
+      "Netcracker OSS",
+      "Nokia NSP",
+      "Ciena Blue Planet",
+      "Cisco Crosswork",
+      "Esri ArcGIS",
+      "Network telemetry",
+    ],
+  },
+  {
+    layer: "BSS / customer sources",
+    items: ["Amdocs CES", "Oracle BRM", "Salesforce Service Cloud", "Dynamics 365 Customer Service", "Work orders"],
   },
   {
     layer: "Operational systems",
-    items: ["Dynamics 365 Field Service", "Dynamics Customer Service", "SAP", "ServiceNow", "Inventory systems"],
+    items: [
+      "Dynamics 365 Field Service",
+      "ServiceNow CSM & FSM",
+      "SAP S/4HANA",
+      "Oracle SCM",
+      "Salesforce Field Service",
+    ],
   },
   {
     layer: "AI services",
     items: ["Azure OpenAI", "Azure AI Search", "Azure AI Vision", "Azure Maps"],
+  },
+];
+
+export type WalkthroughStop = {
+  minute: string;
+  title: string;
+  say: string;
+  show: string;
+  proof: string[];
+};
+
+export const executiveWalkthrough: WalkthroughStop[] = [
+  {
+    minute: "00:00",
+    title: "Frame the cost problem",
+    say: "Field service is one of the largest controllable cost pools in the business — trucks, contractors, repeat visits — and most of that spend goes to coordination, not repair.",
+    show: "Open on the hero and the live operations counters.",
+    proof: ["148 trucks in field", "12 active outages", "37,910 autonomous actions"],
+  },
+  {
+    minute: "02:00",
+    title: "Anchor on the business case",
+    say: "Every number here maps to a metric you already report to the board — first-time fix, MTTR, truck rolls, CSAT.",
+    show: "Scroll to Business outcomes and read the drivers under two tiles.",
+    proof: ["First time fix 72% → 89%", "MTTR down 35–50%", "Truck rolls down 10–25%"],
+  },
+  {
+    minute: "05:00",
+    title: "Run the fiber outage scenario",
+    say: "Watch a single customer report move through seven agents with no swivel-chair between Netcracker, ServiceNow and Dynamics.",
+    show: "Press run on the Fiber outage repair scenario and narrate each handoff.",
+    proof: ["Network Intelligence reads Netcracker + Nokia NSP", "Copilot runs in Dynamics 365 Field Service", "Closure writes back to ServiceNow"],
+  },
+  {
+    minute: "09:00",
+    title: "Show the agent framework",
+    say: "This is not one chatbot. Eight specialized agents each own a domain and share the same context.",
+    show: "Walk the agent grid and open the Uses row on Inventory and Closure.",
+    proof: ["SAP S/4HANA and Oracle SCM for parts", "Salesforce and Amdocs for the customer", "Azure AI Vision for repair validation"],
+  },
+  {
+    minute: "12:00",
+    title: "Prove the storm scenario at scale",
+    say: "The same orchestration absorbs a mass event without adding dispatchers.",
+    show: "Run the Storm recovery scenario and stop on the leadership dashboard step.",
+    proof: ["Incidents clustered and prioritized", "Workforce rebalanced into repair zones", "Customer ETAs pushed automatically"],
+  },
+  {
+    minute: "15:00",
+    title: "Land the architecture and next step",
+    say: "Nothing here asks you to replace your stack — the agents sit above Netcracker, Amdocs, Oracle, Salesforce, ServiceNow and Dynamics.",
+    show: "Finish on the architecture layers and the executive soundbite.",
+    proof: ["Copilot Studio + Azure AI orchestration", "Fabric and OneLake as the data spine", "Existing OSS/BSS systems of record unchanged"],
   },
 ];
