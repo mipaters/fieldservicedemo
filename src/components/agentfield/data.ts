@@ -159,7 +159,7 @@ export const agents: Agent[] = [
     n: 7,
     name: "Customer Engagement Agent",
     responsibilities: ["Proactive outreach", "ETA notifications", "Appointment updates", "Service communication"],
-    meta: { label: "Uses", items: ["CRM", "Customer systems"] },
+    meta: { label: "Uses", items: ["Salesforce Service Cloud", "Dynamics 365 Customer Service", "Amdocs CES"] },
   },
   {
     n: 8,
