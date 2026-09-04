@@ -147,7 +147,7 @@ export const agents: Agent[] = [
     n: 5,
     name: "Inventory Agent",
     responsibilities: ["Check truck stock", "Locate replacement parts", "Reserve inventory", "Initiate replenishment"],
-    meta: { label: "Uses", items: ["Inventory systems", "SAP"] },
+    meta: { label: "Uses", items: ["SAP S/4HANA", "Oracle SCM", "Dynamics 365 Field Service inventory"] },
   },
   {
     n: 6,
