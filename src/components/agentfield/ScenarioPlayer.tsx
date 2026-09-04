@@ -8,7 +8,7 @@ export function ScenarioPlayer() {
   const [active, setActive] = useState(0);
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const scenario = scenarios[active];
+  const scenario = scenarios[active] ?? scenarios[0]!;
 
   useEffect(() => {
     if (!playing) return;
