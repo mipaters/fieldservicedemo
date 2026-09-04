@@ -132,7 +132,10 @@ export const agents: Agent[] = [
     n: 3,
     name: "Network Intelligence Agent",
     responsibilities: ["Analyze network alarms", "Review telemetry", "Detect root cause", "Predict likely failures"],
-    meta: { label: "Data sources", items: ["OSS/BSS", "Network monitoring", "Event streams", "Historical incidents"] },
+    meta: {
+      label: "Data sources",
+      items: ["Netcracker OSS", "Amdocs BSS", "Nokia NSP", "Ciena Blue Planet", "Splunk event streams"],
+    },
   },
   {
     n: 4,
