@@ -185,7 +185,7 @@ function Index() {
       <section id="scenarios" className="mx-auto max-w-7xl px-5 py-20">
         <SectionHeading
           eyebrow="Live walkthroughs"
-          title="Three scenarios, one orchestrated workflow"
+          title="Four scenarios, one orchestrated workflow"
           lead="Press run and watch the agents hand off work with no swivel-chair operations."
         />
         <div className="mt-10">
