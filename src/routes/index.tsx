@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Radio, Satellite, Truck, Users } from "lucide-react";
 import heroImage from "@/assets/hero-field.jpg";
 import { Button } from "@/components/ui/button";
@@ -53,14 +53,15 @@ function Index() {
             <span className="font-display text-sm font-bold tracking-tight">AgentField 360</span>
           </div>
           <nav className="hidden gap-6 text-sm text-muted-foreground md:flex">
+            <Link to="/walkthrough" className="hover:text-foreground">Walkthrough</Link>
             <a href="#outcomes" className="hover:text-foreground">Outcomes</a>
             <a href="#scenarios" className="hover:text-foreground">Scenarios</a>
-            <a href="#walkthrough" className="hover:text-foreground">Walkthrough</a>
+            <a href="#walkthrough" className="hover:text-foreground">Demo guide</a>
             <a href="#agents" className="hover:text-foreground">Agents</a>
             <a href="#architecture" className="hover:text-foreground">Architecture</a>
           </nav>
           <Button asChild size="sm">
-            <a href="#scenarios">Run the demo</a>
+            <Link to="/walkthrough">Executive walkthrough</Link>
           </Button>
         </div>
       </header>
@@ -90,7 +91,7 @@ function Index() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button size="lg" asChild>
-              <a href="#scenarios">Walk a live scenario</a>
+              <Link to="/walkthrough">Start the executive walkthrough</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <a href="#outcomes">See the business case</a>
@@ -112,7 +113,7 @@ function Index() {
       </section>
 
       {/* Narrative */}
-      <section className="mx-auto max-w-7xl px-5 py-20">
+      <section id="shift" className="mx-auto max-w-7xl px-5 py-20">
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <SectionHeading
