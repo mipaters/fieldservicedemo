@@ -91,7 +91,7 @@ function Index() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button size="lg" asChild>
-              <a href="#scenarios">Walk a live scenario</a>
+              <Link to="/walkthrough">Start the executive walkthrough</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <a href="#outcomes">See the business case</a>
