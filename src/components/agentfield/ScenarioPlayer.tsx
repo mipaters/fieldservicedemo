@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Play, Pause, RotateCcw, ChevronRight } from "lucide-react";
+import { Play, Pause, RotateCcw, ChevronRight, User, Sparkles, Plug } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { scenarios } from "./data";
 import { cn } from "@/lib/utils";
@@ -124,6 +124,37 @@ export function ScenarioPlayer() {
                       </li>
                     ))}
                   </ul>
+                )}
+                {(s.human || s.msft || s.systems) && revealed && (
+                  <div className="mt-3 space-y-2 border-t border-border/50 pt-3">
+                    {s.human && (
+                      <div className="flex items-start gap-2">
+                        <User className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                        <p className="text-xs leading-relaxed text-foreground/80">
+                          <span className="font-semibold text-foreground">Human interaction — </span>
+                          {s.human}
+                        </p>
+                      </div>
+                    )}
+                    {s.msft && (
+                      <div className="flex items-start gap-2">
+                        <Sparkles className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                        <p className="text-xs leading-relaxed text-foreground/80">
+                          <span className="font-semibold text-foreground">Powered by — </span>
+                          {s.msft.join(" · ")}
+                        </p>
+                      </div>
+                    )}
+                    {s.systems && (
+                      <div className="flex items-start gap-2">
+                        <Plug className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                        <p className="text-xs leading-relaxed text-foreground/80">
+                          <span className="font-semibold text-foreground">Systems touched — </span>
+                          {s.systems.join(" · ")}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 )}
               </li>
             );

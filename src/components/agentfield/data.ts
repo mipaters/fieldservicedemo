@@ -44,7 +44,14 @@ export type Scenario = {
   user: string;
   objective: string;
   agents: string[];
-  steps: { actor: string; text: string; bullets?: string[] }[];
+  steps: {
+    actor: string;
+    text: string;
+    bullets?: string[];
+    human?: string;
+    msft?: string[];
+    systems?: string[];
+  }[];
 };
 
 export const scenarios: Scenario[] = [
@@ -63,15 +70,71 @@ export const scenarios: Scenario[] = [
       "Activation",
     ],
     steps: [
-      { actor: "Customer", text: "Submits a fiber service order online." },
-      { actor: "Customer Engagement Agent", text: "Receives the request and opens the install journey." },
-      { actor: "Serviceability Agent", text: "Verifies eligibility.", bullets: ["Address", "Fiber availability", "Capacity"] },
-      { actor: "Inventory Agent", text: "Reserves equipment.", bullets: ["ONT", "Router", "Cabling"] },
-      { actor: "Scheduling Agent", text: "Identifies the best appointment window." },
-      { actor: "Dispatch Agent", text: "Assigns the technician and optimizes the route." },
-      { actor: "Technician Copilot", text: "Prepares the installation plan and site brief." },
-      { actor: "Activation Agent", text: "Validates the service.", bullets: ["Signal levels", "Device registration", "Service activation"] },
-      { actor: "Customer Engagement Agent", text: "Sends confirmation and onboarding information." },
+      {
+        actor: "Customer",
+        text: "Submits a fiber service order online.",
+        human: "The customer simply places an order on the web portal — no phone call, no forms to repeat.",
+        systems: ["Salesforce Service Cloud"],
+      },
+      {
+        actor: "Customer Engagement Agent",
+        text: "Receives the request, opens the install journey and confirms the order with the customer.",
+        human: "The customer gets an instant, conversational confirmation — and can ask questions in plain language.",
+        msft: ["Microsoft Copilot Studio", "Azure OpenAI"],
+        systems: ["Salesforce Service Cloud", "Amdocs CES"],
+      },
+      {
+        actor: "Serviceability Agent",
+        text: "Verifies eligibility.",
+        bullets: ["Address", "Fiber availability", "Capacity"],
+        human: "No human involvement — the agent checks network records the moment the order arrives.",
+        msft: ["Azure AI Agents"],
+        systems: ["Netcracker OSS", "Esri ArcGIS", "Nokia NSP"],
+      },
+      {
+        actor: "Inventory Agent",
+        text: "Reserves equipment.",
+        bullets: ["ONT", "Router", "Cabling"],
+        human: "A warehouse supervisor only gets involved if stock runs below threshold — the agent handles the rest.",
+        msft: ["Azure AI Agents", "Microsoft Fabric"],
+        systems: ["SAP S/4HANA", "Oracle SCM"],
+      },
+      {
+        actor: "Scheduling Agent",
+        text: "Identifies the best appointment window.",
+        human: "The customer picks from offered windows in a chat; the agent books it instantly.",
+        msft: ["Microsoft Copilot Studio"],
+        systems: ["Dynamics 365 Field Service", "ServiceNow FSM"],
+      },
+      {
+        actor: "Dispatch Agent",
+        text: "Assigns the technician and optimizes the route.",
+        human: "The dispatcher sees the proposed assignment on a board and can override it — but rarely needs to.",
+        msft: ["Azure AI Agents", "Azure Maps"],
+        systems: ["Dynamics 365 Field Service", "Salesforce Field Service"],
+      },
+      {
+        actor: "Technician Copilot",
+        text: "Prepares the installation plan and site brief.",
+        human: "The technician opens the job on their phone and gets a spoken summary: site access notes, equipment list, install steps.",
+        msft: ["Dynamics 365 Field Service Copilot", "Azure OpenAI"],
+        systems: ["Dynamics 365 Field Service", "SAP S/4HANA"],
+      },
+      {
+        actor: "Activation Agent",
+        text: "Validates the service.",
+        bullets: ["Signal levels", "Device registration", "Service activation"],
+        human: "The technician watches live test results on the mobile app instead of running manual checks with NOC.",
+        msft: ["Azure AI Agents"],
+        systems: ["Nokia NSP", "Ciena Blue Planet", "Netcracker OSS"],
+      },
+      {
+        actor: "Customer Engagement Agent",
+        text: "Sends confirmation and onboarding information.",
+        human: "The customer receives a personalized wrap-up — speed test results, Wi-Fi tips, billing start date.",
+        msft: ["Microsoft Copilot Studio", "Azure OpenAI"],
+        systems: ["Salesforce Service Cloud", "Amdocs billing"],
+      },
     ],
   },
   {
@@ -81,13 +144,56 @@ export const scenarios: Scenario[] = [
     objective: "Restore a customer reporting an outage",
     agents: ["Incident", "Technician Copilot", "Network Intelligence", "Visual Inspection", "Knowledge", "Closure"],
     steps: [
-      { actor: "Technician", text: "Arrives onsite with full context already loaded.", bullets: ["Service history", "Previous outages", "Equipment installed", "Nearby network events"] },
-      { actor: "Technician", text: "Asks in natural language: \"Why is this ONT offline?\"" },
-      { actor: "Network Intelligence Agent", text: "Analyzes the network.", bullets: ["Alarm data", "Telemetry", "Signal metrics", "Configuration changes"] },
-      { actor: "Visual Inspection Agent", text: "Examines the camera image of the enclosure." },
-      { actor: "Knowledge Agent", text: "Retrieves similar incidents and proven fixes." },
-      { actor: "Technician Copilot", text: "Surfaces recommended repair steps instantly." },
-      { actor: "Closure Agent", text: "Resolves the job and updates every downstream system." },
+      {
+        actor: "Technician",
+        text: "Arrives onsite with full context already loaded.",
+        bullets: ["Service history", "Previous outages", "Equipment installed", "Nearby network events"],
+        human: "The technician opens the job on the mobile app — everything they'd normally call dispatch for is already there.",
+        msft: ["Dynamics 365 Field Service Copilot"],
+        systems: ["Dynamics 365 Field Service", "ServiceNow CSM", "Salesforce Service Cloud"],
+      },
+      {
+        actor: "Technician",
+        text: "Asks in natural language: \"Why is this ONT offline?\"",
+        human: "A plain-language question, spoken or typed — the copilot fans it out to the specialist agents.",
+        msft: ["Azure OpenAI", "Microsoft Copilot Studio"],
+      },
+      {
+        actor: "Network Intelligence Agent",
+        text: "Analyzes the network.",
+        bullets: ["Alarm data", "Telemetry", "Signal metrics", "Configuration changes"],
+        human: "No human involvement — work that used to mean a call to the NOC happens in seconds.",
+        msft: ["Azure AI Agents", "Microsoft Fabric"],
+        systems: ["Netcracker OSS", "Nokia NSP", "Ciena Blue Planet", "Splunk"],
+      },
+      {
+        actor: "Visual Inspection Agent",
+        text: "Examines the camera image of the enclosure.",
+        human: "The technician snaps a photo with their phone; the agent flags a bent fiber connector in the image.",
+        msft: ["Azure AI Vision", "GPT Vision via Azure OpenAI"],
+        systems: ["Dynamics 365 Field Service"],
+      },
+      {
+        actor: "Knowledge Agent",
+        text: "Retrieves similar incidents and proven fixes.",
+        human: "No human involvement — the agent searches years of closed tickets for matching fixes.",
+        msft: ["Azure AI Search", "Azure OpenAI"],
+        systems: ["ServiceNow CSM", "Amdocs CES"],
+      },
+      {
+        actor: "Technician Copilot",
+        text: "Surfaces recommended repair steps instantly.",
+        human: "The technician reviews the ranked fix list, approves the top recommendation and does the physical repair — the human decides, the agent informs.",
+        msft: ["Dynamics 365 Field Service Copilot", "Azure OpenAI"],
+        systems: ["Dynamics 365 Field Service"],
+      },
+      {
+        actor: "Closure Agent",
+        text: "Resolves the job and updates every downstream system.",
+        human: "The technician taps \"complete\" — no end-of-day paperwork, no rekeying into five systems.",
+        msft: ["Azure AI Agents"],
+        systems: ["Dynamics 365 Field Service", "ServiceNow CSM", "Amdocs billing", "Salesforce", "Netcracker OSS"],
+      },
     ],
   },
   {
@@ -97,11 +203,44 @@ export const scenarios: Scenario[] = [
     objective: "Restore service after a major outage",
     agents: ["Outage Command", "Dispatch", "Fleet", "Workforce", "Communications"],
     steps: [
-      { actor: "Event", text: "A storm causes multiple simultaneous service interruptions." },
-      { actor: "Outage Command Agent", text: "Triages the event.", bullets: ["Prioritizes incidents", "Clusters nearby events", "Predicts root causes"] },
-      { actor: "Dispatch Agent", text: "Reshapes the response.", bullets: ["Rebalances workforce", "Creates repair zones", "Optimizes routes"] },
-      { actor: "Communications Agent", text: "Keeps customers informed.", bullets: ["Notifies customers", "Updates service status", "Provides ETA predictions"] },
-      { actor: "Leadership dashboard", text: "Shows live recovery posture.", bullets: ["Active outages", "Restoration progress", "Resource utilization"] },
+      {
+        actor: "Event",
+        text: "A storm causes multiple simultaneous service interruptions.",
+        human: "The operations director opens the event console — alarms are already streaming in from the network.",
+        systems: ["Netcracker OSS", "Nokia NSP", "Splunk"],
+      },
+      {
+        actor: "Outage Command Agent",
+        text: "Triages the event.",
+        bullets: ["Prioritizes incidents", "Clusters nearby events", "Predicts root causes"],
+        human: "The director reviews the agent's triage — 214 alarms collapsed into 12 probable root events — and approves the response plan.",
+        msft: ["Azure AI Agents", "Microsoft Fabric", "Azure OpenAI"],
+        systems: ["Netcracker OSS", "Ciena Blue Planet", "ServiceNow CSM"],
+      },
+      {
+        actor: "Dispatch Agent",
+        text: "Reshapes the response.",
+        bullets: ["Rebalances workforce", "Creates repair zones", "Optimizes routes"],
+        human: "Dispatch leads see the proposed repair zones and crew assignments, adjust two by hand, and publish — agents absorb the rest.",
+        msft: ["Azure AI Agents", "Azure Maps"],
+        systems: ["Dynamics 365 Field Service", "Salesforce Field Service", "ServiceNow FSM"],
+      },
+      {
+        actor: "Communications Agent",
+        text: "Keeps customers informed.",
+        bullets: ["Notifies customers", "Updates service status", "Provides ETA predictions"],
+        human: "Customers get proactive texts with live ETAs — call-center volume drops instead of spiking.",
+        msft: ["Microsoft Copilot Studio", "Azure OpenAI"],
+        systems: ["Salesforce Service Cloud", "Amdocs CES", "Dynamics 365 Customer Service"],
+      },
+      {
+        actor: "Leadership dashboard",
+        text: "Shows live recovery posture.",
+        bullets: ["Active outages", "Restoration progress", "Resource utilization"],
+        human: "Executives watch recovery in real time and ask the copilot questions — \"when will the north zone be restored?\" — answered from live data.",
+        msft: ["Microsoft Fabric", "Copilot in Power BI"],
+        systems: ["Microsoft Fabric OneLake", "SAP S/4HANA"],
+      },
     ],
   },
 ];
