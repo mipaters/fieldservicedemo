@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Radio, Satellite, Truck, Users } from "lucide-react";
 import heroImage from "@/assets/hero-field.jpg";
 import { Button } from "@/components/ui/button";
