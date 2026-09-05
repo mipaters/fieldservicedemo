@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Play, Pause, RotateCcw, ChevronRight } from "lucide-react";
+import { Play, Pause, RotateCcw, ChevronRight, User, Sparkles, Plug } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { scenarios } from "./data";
 import { cn } from "@/lib/utils";
