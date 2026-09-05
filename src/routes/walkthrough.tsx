@@ -92,7 +92,7 @@ function Walkthrough() {
               ))}
             </div>
 
-            <div key={step} className="surface-panel mt-6 animate-[rise-in] rounded-2xl p-6 sm:p-8">
+            <div key={step} className="surface-panel animate-rise-in mt-6 rounded-2xl p-6 sm:p-8">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
                 Step {step + 1} of {walkthroughSteps.length}
               </p>
