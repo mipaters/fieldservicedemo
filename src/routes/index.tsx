@@ -113,7 +113,7 @@ function Index() {
       </section>
 
       {/* Narrative */}
-      <section className="mx-auto max-w-7xl px-5 py-20">
+      <section id="shift" className="mx-auto max-w-7xl px-5 py-20">
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <SectionHeading
