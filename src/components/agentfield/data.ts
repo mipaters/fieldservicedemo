@@ -233,6 +233,63 @@ export type WalkthroughStop = {
   proof: string[];
 };
 
+export type WalkthroughStep = {
+  title: string;
+  detail: string;
+  to: string;
+};
+
+export const walkthroughSteps: WalkthroughStep[] = [
+  {
+    title: "Field service is a coordination problem",
+    detail:
+      "Operators spend billions on truck rolls, installs, dispatch operations, contractor management and repeat visits. Most of that spend coordinates people — it does not repair networks.",
+    to: "/",
+  },
+  {
+    title: "AgentField 360 is an orchestration layer",
+    detail:
+      "The Autonomous Workforce Operations Platform sits above existing CRM, field service, workforce management, inventory and network operations systems — coordinating Netcracker, Amdocs, ServiceNow, Dynamics 365, Salesforce, SAP and Oracle rather than replacing them.",
+    to: "/#shift",
+  },
+  {
+    title: "Specialized agents own each domain",
+    detail:
+      "Eight agents — Dispatch, Technician Copilot, Network Intelligence, Visual Inspection, Inventory, Safety, Customer Engagement and Closure — share one context and escalate only when a human adds value.",
+    to: "/#agents",
+  },
+  {
+    title: "Answers find the technician",
+    detail:
+      "Instead of technicians searching documentation and calling supervisors, agents deliver context, diagnostics and recommended repairs the moment a job starts. People focus on customers, not systems.",
+    to: "/#shift",
+  },
+  {
+    title: "One orchestrated workflow across systems",
+    detail:
+      "A single customer report moves through seven agents with no swivel-chair between Netcracker, ServiceNow and Dynamics 365 Field Service. Closure writes back to every downstream system automatically.",
+    to: "/#scenarios",
+  },
+  {
+    title: "Business outcomes in the first year",
+    detail:
+      "First-time fix 72% → 89%, mean time to repair down 35–50%, truck rolls down 10–25% and CSAT up 15–30 points — every number maps to a metric you already report to the board.",
+    to: "/#outcomes",
+  },
+  {
+    title: "Scales through mass events",
+    detail:
+      "The same orchestration absorbs a storm with multiple simultaneous outages — clustering incidents, rebalancing the workforce into repair zones and pushing customer ETAs — without adding dispatchers.",
+    to: "/#scenarios",
+  },
+  {
+    title: "Built on the stack operators already run",
+    detail:
+      "Microsoft Copilot Studio, Azure AI Agents and Fabric form the agent and data spine, sitting above your OSS/BSS systems of record. Nothing here asks you to replace your stack.",
+    to: "/#architecture",
+  },
+];
+
 export const executiveWalkthrough: WalkthroughStop[] = [
   {
     minute: "00:00",
