@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Play, Pause, RotateCcw, ChevronRight, User, Sparkles, Plug } from "lucide-react";
+import { Play, Pause, RotateCcw, ArrowLeft, ArrowRight, User, Sparkles, Plug, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { scenarios } from "./data";
 import { cn } from "@/lib/utils";
@@ -9,16 +9,18 @@ export function ScenarioPlayer() {
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
   const scenario = scenarios[active] ?? scenarios[0]!;
+  const total = scenario.steps.length;
+  const current = scenario.steps[step]!;
 
   useEffect(() => {
     if (!playing) return;
-    if (step >= scenario.steps.length) {
+    if (step >= total - 1) {
       setPlaying(false);
       return;
     }
-    const t = setTimeout(() => setStep((s) => s + 1), 1200);
+    const t = setTimeout(() => setStep((s) => s + 1), 2400);
     return () => clearTimeout(t);
-  }, [playing, step, scenario.steps.length]);
+  }, [playing, step, total]);
 
   const select = (i: number) => {
     setActive(i);
@@ -45,121 +47,164 @@ export function ScenarioPlayer() {
         ))}
       </div>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-[300px_1fr]">
-        <div className="space-y-5">
+      <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-wrap gap-6">
           <div>
             <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">User</p>
-            <p className="mt-1 text-lg font-semibold">{scenario.user}</p>
+            <p className="mt-1 text-base font-semibold">{scenario.user}</p>
           </div>
           <div>
             <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Objective</p>
             <p className="mt-1 text-sm text-foreground/85">{scenario.objective}</p>
           </div>
-          <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Agents involved</p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {scenario.agents.map((a) => (
-                <span
-                  key={a}
-                  className="rounded-md border border-border bg-secondary/60 px-2 py-1 text-xs text-foreground/80"
-                >
-                  {a}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="flex gap-2 pt-1">
-            <Button
+        </div>
+        <div className="flex gap-2">
+          <Button
+            onClick={() => {
+              if (step >= total - 1) setStep(0);
+              setPlaying((p) => !p);
+            }}
+          >
+            {playing ? <Pause /> : <Play />}
+            {playing ? "Pause" : "Run scenario"}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setStep(0);
+              setPlaying(false);
+            }}
+          >
+            <RotateCcw />
+            Reset
+          </Button>
+        </div>
+      </div>
+
+      {/* Progress segments */}
+      <div className="mt-6 flex gap-1.5">
+        {scenario.steps.map((s, i) => (
+          <button
+            key={`${scenario.id}-seg-${i}`}
+            onClick={() => {
+              setStep(i);
+              setPlaying(false);
+            }}
+            className="h-1.5 flex-1 rounded-full transition-colors"
+            style={{
+              backgroundColor:
+                i <= step ? "var(--primary)" : "color-mix(in oklab, var(--primary) 22%, transparent)",
+            }}
+            aria-label={`Go to step ${i + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Horizontal step tiles */}
+      <div className="-mx-5 mt-5 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8">
+        <div className="flex gap-3">
+          {scenario.steps.map((s, i) => (
+            <button
+              key={`${scenario.id}-tile-${i}`}
               onClick={() => {
-                if (step >= scenario.steps.length) setStep(0);
-                setPlaying((p) => !p);
+                setStep(i);
+                setPlaying(false);
               }}
+              className={cn(
+                "w-44 shrink-0 rounded-xl border p-3 text-left transition-all",
+                i === step
+                  ? "border-primary/60 bg-primary/10 shadow-[var(--shadow-glow)]"
+                  : i < step
+                    ? "border-primary/30 bg-secondary/50"
+                    : "border-border bg-secondary/30 opacity-60 hover:border-primary/40 hover:opacity-100",
+              )}
             >
-              {playing ? <Pause /> : <Play />}
-              {playing ? "Pause" : "Run scenario"}
+              <div className="flex items-center justify-between">
+                <span
+                  className={cn(
+                    "grid size-6 place-items-center rounded-md border font-mono text-[11px]",
+                    i <= step ? "border-primary/40 bg-primary/10 text-primary" : "border-border text-muted-foreground",
+                  )}
+                >
+                  {i + 1}
+                </span>
+                {i < step && <span className="size-1.5 rounded-full bg-primary" />}
+              </div>
+              <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-primary/90">{s.actor}</p>
+              <p className="mt-1 line-clamp-3 text-xs leading-snug text-foreground/85">{s.text}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Current step detail */}
+      <div key={`${scenario.id}-${step}`} className="animate-rise-in mt-5 rounded-xl border border-border bg-secondary/40 p-5 sm:p-6">
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
+          Step {step + 1} of {total} — {current.actor}
+        </p>
+        <p className="mt-3 max-w-3xl text-base leading-relaxed text-foreground/90">{current.text}</p>
+        {current.bullets && (
+          <ul className="mt-3 grid gap-1.5 sm:grid-cols-3">
+            {current.bullets.map((b) => (
+              <li key={b} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <ChevronRight className="size-3 text-accent" />
+                {b}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {(current.human || current.msft || current.systems) && (
+          <div className="mt-5 grid gap-4 border-t border-border/60 pt-4 md:grid-cols-3">
+            {current.human && (
+              <div className="flex items-start gap-2">
+                <User className="mt-0.5 size-4 shrink-0 text-primary" />
+                <p className="text-sm leading-relaxed text-foreground/80">
+                  <span className="font-semibold text-foreground">Human interaction — </span>
+                  {current.human}
+                </p>
+              </div>
+            )}
+            {current.msft && (
+              <div className="flex items-start gap-2">
+                <Sparkles className="mt-0.5 size-4 shrink-0 text-primary" />
+                <p className="text-sm leading-relaxed text-foreground/80">
+                  <span className="font-semibold text-foreground">Powered by — </span>
+                  {current.msft.join(" · ")}
+                </p>
+              </div>
+            )}
+            {current.systems && (
+              <div className="flex items-start gap-2">
+                <Plug className="mt-0.5 size-4 shrink-0 text-primary" />
+                <p className="text-sm leading-relaxed text-foreground/80">
+                  <span className="font-semibold text-foreground">Systems touched — </span>
+                  {current.systems.join(" · ")}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <Button variant="outline" onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}>
+            <ArrowLeft className="size-4" /> Back
+          </Button>
+          {step < total - 1 ? (
+            <Button onClick={() => setStep((s) => Math.min(total - 1, s + 1))}>
+              Next step <ArrowRight className="size-4" />
             </Button>
+          ) : (
             <Button
-              variant="outline"
               onClick={() => {
                 setStep(0);
                 setPlaying(false);
               }}
             >
-              <RotateCcw />
-              Reset
+              <RotateCcw className="size-4" /> Restart
             </Button>
-          </div>
+          )}
         </div>
-
-        <ol className="relative space-y-3 border-l border-border pl-6">
-          {scenario.steps.map((s, i) => {
-            const revealed = i < step;
-            const current = i === step - 1;
-            return (
-              <li
-                key={`${scenario.id}-${i}`}
-                className={cn(
-                  "relative rounded-xl border p-4 transition-all duration-500",
-                  revealed
-                    ? "border-primary/35 bg-secondary/50 opacity-100"
-                    : "border-border/60 bg-transparent opacity-35",
-                  current && "shadow-[var(--shadow-glow)]",
-                )}
-              >
-                <span
-                  className={cn(
-                    "absolute -left-[31px] top-6 size-2.5 rounded-full",
-                    revealed ? "bg-primary" : "bg-border",
-                    current && "animate-node",
-                  )}
-                />
-                <p className="font-mono text-[11px] uppercase tracking-widest text-primary/90">{s.actor}</p>
-                <p className="mt-1 text-sm text-foreground/90">{s.text}</p>
-                {s.bullets && (
-                  <ul className="mt-2 grid gap-1 sm:grid-cols-2">
-                    {s.bullets.map((b) => (
-                      <li key={b} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                        <ChevronRight className="size-3 text-accent" />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {(s.human || s.msft || s.systems) && revealed && (
-                  <div className="mt-3 space-y-2 border-t border-border/50 pt-3">
-                    {s.human && (
-                      <div className="flex items-start gap-2">
-                        <User className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                        <p className="text-xs leading-relaxed text-foreground/80">
-                          <span className="font-semibold text-foreground">Human interaction — </span>
-                          {s.human}
-                        </p>
-                      </div>
-                    )}
-                    {s.msft && (
-                      <div className="flex items-start gap-2">
-                        <Sparkles className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                        <p className="text-xs leading-relaxed text-foreground/80">
-                          <span className="font-semibold text-foreground">Powered by — </span>
-                          {s.msft.join(" · ")}
-                        </p>
-                      </div>
-                    )}
-                    {s.systems && (
-                      <div className="flex items-start gap-2">
-                        <Plug className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                        <p className="text-xs leading-relaxed text-foreground/80">
-                          <span className="font-semibold text-foreground">Systems touched — </span>
-                          {s.systems.join(" · ")}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ol>
       </div>
     </div>
   );
