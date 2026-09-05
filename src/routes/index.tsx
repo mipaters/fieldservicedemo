@@ -53,14 +53,15 @@ function Index() {
             <span className="font-display text-sm font-bold tracking-tight">AgentField 360</span>
           </div>
           <nav className="hidden gap-6 text-sm text-muted-foreground md:flex">
+            <Link to="/walkthrough" className="hover:text-foreground">Walkthrough</Link>
             <a href="#outcomes" className="hover:text-foreground">Outcomes</a>
             <a href="#scenarios" className="hover:text-foreground">Scenarios</a>
-            <a href="#walkthrough" className="hover:text-foreground">Walkthrough</a>
+            <a href="#walkthrough" className="hover:text-foreground">Demo guide</a>
             <a href="#agents" className="hover:text-foreground">Agents</a>
             <a href="#architecture" className="hover:text-foreground">Architecture</a>
           </nav>
           <Button asChild size="sm">
-            <a href="#scenarios">Run the demo</a>
+            <Link to="/walkthrough">Executive walkthrough</Link>
           </Button>
         </div>
       </header>
