@@ -44,7 +44,14 @@ export type Scenario = {
   user: string;
   objective: string;
   agents: string[];
-  steps: { actor: string; text: string; bullets?: string[] }[];
+  steps: {
+    actor: string;
+    text: string;
+    bullets?: string[];
+    human?: string;
+    msft?: string[];
+    systems?: string[];
+  }[];
 };
 
 export const scenarios: Scenario[] = [
